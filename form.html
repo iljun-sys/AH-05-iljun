@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+
+  <form action="https://google.com/search">
+    <input type="search" placeholder="검색어를 입력하세요" name="q" autocomplete="off" autofocus><br>
+    <!-- input 태그에 입력한 데이터를 전송 -->
+    <button>검색</button>
+  </form>
+  
+<hr>
+
+  <!-- POST -->
+  <form action="https://httpbin.org/post" method="post">
+    <input type="email" placeholder="이메일 입력" name="email"><br>
+    <input type="password" placeholder="비밀번호 입력" name="password"><br>
+    <button>가입하기</button>
+  </form>
+
+<!-- GET -->
+    <form action="https://google.com/search">
+        <input type="search" placeholder="검색어를 입력하세요" name="q" autofocus autocomplete="off">
+        <!-- input 태그에 입력한 데이터를 전송 -->
+        <button>검색</button>
+    </form>
+
+<hr>
+
+    <!-- POST -->
+    <form action="https://httpbin.org/post" method="POST">
+        <input type="email" placeholder="이메일 입력" name="e">
+        <input type="password" placeholder="비밀번호 입력" name="p">
+        <button>가입하기</button>
+    </form>
+
+</body>
+</html>
