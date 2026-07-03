@@ -1,0 +1,32 @@
+    .contents {
+      text-align: center;
+      font-family: 'Noto Sans', Times, serif;
+    }
+
+    #name {
+      font-size: x-large;
+      font-weight: bold;
+      background-color: orange;
+      #border: 1px solid black;
+    }
+
+    #github {
+      font-size: small;
+      color: gray;
+      text-decoration: none;
+      background-color: lightgray;
+    }
+
+    #github:hover {
+      text-decoration: underline;
+    }
+
+    main {
+      font-size: medium;
+      margin-top: 20px;
+      margin-bottom: 150px;
+    }
+
+    footer {
+      font-size: XX-small;
+    }
