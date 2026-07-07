@@ -1,0 +1,195 @@
+  :root {
+    --ink: #1a1a1a;
+    --muted: #6b6b6b;
+    --line: #e4e4e4;
+    --accent: #1979da;
+    --accent-soft: #f1f2fb;
+    --bg: #ffffff;
+    --maxw: 820px;
+  }
+
+  * { box-sizing: border-box; }
+
+  html { -webkit-text-size-adjust: 100%; }
+
+  body {
+    margin: 0;
+    background: #f4f4f5;
+    color: var(--ink);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
+      "Apple SD Gothic Neo", "Malgun Gothic", "Noto Sans KR", sans-serif;
+    line-height: 1.65;
+    /* 화면 폭에 따라 12~13px 사이에서 유연하게 */
+    font-size: clamp(12px, 1.6vw, 13px);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .page {
+    max-width: var(--maxw);
+    margin: 40px auto;
+    background: var(--bg);
+    /* 여백도 화면에 따라 유연하게 (좁을수록 줄어듦) */
+    padding: clamp(32px, 5vw, 56px) clamp(24px, 6vw, 60px) clamp(40px, 6vw, 64px);
+    border-radius: 12px;
+    box-shadow: 0 6px 30px rgba(0,0,0,0.07);
+  }
+
+  /* ---- Header ---- */
+  header { border-bottom: 3px solid var(--accent); padding-bottom: 22px; }
+
+  h1 {
+    /* 27~34px 사이에서 유연하게 */
+    font-size: clamp(27px, 5vw, 34px);
+    margin: 0 0 6px;
+    letter-spacing: -0.5px;
+    font-weight: 700;
+    line-height: 1.2;
+  }
+  h1 .en {
+    color: var(--muted);
+    font-weight: 500;
+    font-size: clamp(18px, 3vw, 22px);
+  }
+
+  .role {
+    font-size: 14px;              /* 원본의 줄바꿈 버그 수정 (14\npx → 14px) */
+    color: var(--accent);
+    font-weight: 600;
+    margin-bottom: 4px;
+  }
+  .meta { color: var(--muted); font-size: 13.5px; }
+
+  .lead {
+    margin-top: 18px;
+    font-size: clamp(13px, 2vw, 14px);
+    color: #333;
+  }
+
+  /* ---- Sections ---- */
+  section { margin-top: clamp(24px, 4vw, 34px); }
+
+  h2 {
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--accent);
+    margin: 0 0 16px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid var(--line);
+    font-weight: 700;
+  }
+
+  h3 {
+    font-size: clamp(15px, 2.4vw, 16px);
+    margin: 0 0 3px;
+    font-weight: 700;
+    line-height: 1.35;
+  }
+  h3 .tag {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--accent);
+    background: var(--accent-soft);
+    padding: 2px 8px;
+    border-radius: 20px;
+    vertical-align: middle;
+    margin-left: 6px;
+    white-space: nowrap;          /* 태그가 중간에서 줄바꿈되지 않도록 */
+  }
+
+  p { margin: 0 0 10px; }
+
+  .strength { margin-bottom: 16px; }
+  .strength .t { font-weight: 700; }
+  .strength .d { color: #444; }
+
+  ul { margin: 6px 0 0; padding-left: 18px; }
+  li { margin-bottom: 5px; }
+
+  .grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px 32px;
+  }
+  .grid .block .h {
+    font-weight: 700;
+    margin-bottom: 6px;
+    display: inline-block;
+    border-bottom: 2px solid var(--accent-soft);
+  }
+  .grid ul { padding-left: 16px; margin-top: 2px; }
+
+  .project { margin-bottom: 22px; }
+  .project p.desc { color: #444; margin-bottom: 6px; }
+
+  .exp { margin-bottom: 18px; }
+  .exp .top {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 2px 12px;                /* 줄바꿈 시 위아래 간격 확보 */
+  }
+  .exp .where { font-weight: 700; }
+  .exp .when { color: var(--muted); font-size: 13px; }
+
+  a { color: var(--accent); text-decoration: none; word-break: break-word; }
+  a:hover { text-decoration: underline; }
+
+  .note {
+    margin-top: 8px;
+    font-size: 12.5px;
+    color: var(--muted);
+    background: #fafafa;
+    border-left: 3px solid var(--line);
+    padding: 8px 12px;
+    border-radius: 4px;
+  }
+
+  footer {
+    margin-top: 40px;
+    padding-top: 16px;
+    border-top: 1px solid var(--line);
+    font-size: 11px;              /* 8px는 너무 작아 가독성 위해 상향 */
+    color: var(--muted);
+    text-align: center;
+  }
+
+  /* ---- Responsive: 태블릿 (~768px) ---- */
+  @media (max-width: 768px) {
+    .page { margin: 24px auto; }
+    .grid { gap: 18px 24px; }
+    .exp .top { flex-direction: column; align-items: flex-start; }
+  }
+
+  /* ---- Responsive: 모바일 (~640px) ---- */
+  @media (max-width: 640px) {
+    body { background: #fff; }     /* 좁은 화면은 카드 배경 없이 꽉 차게 */
+    .page {
+      margin: 0;
+      border-radius: 0;
+      box-shadow: none;
+    }
+    .grid { grid-template-columns: 1fr; }  /* 2열 → 1열 */
+    /* 넓게 지정된 개발 블록(inline style grid-column)도 1열에 맞춤 */
+    .grid .block[style] { grid-column: auto !important; }
+    header { padding-bottom: 18px; }
+    .lead { margin-top: 14px; }
+  }
+
+  /* ---- Responsive: 작은 모바일 (~380px) ---- */
+  @media (max-width: 380px) {
+    h1 .en { display: block; margin-top: 2px; }  /* 이름 영문을 다음 줄로 */
+    h3 .tag { display: inline-block; margin: 4px 0 0; }
+  }
+
+  /* ---- Print ---- */
+  @media print {
+    body { background: #fff; font-size: 12px; line-height: 1.5; }
+    .page { box-shadow: none; margin: 0; max-width: none; padding: 0 12mm; border-radius: 0; }
+    section { margin-top: 22px; page-break-inside: avoid; }
+    .project, .exp, .strength { page-break-inside: avoid; }
+    .grid { grid-template-columns: 1fr 1fr; }  /* 인쇄 시 2열 유지 */
+    .note { display: none; }
+    a { color: var(--ink); }       /* 인쇄물은 링크도 검정으로 */
+  }
