@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+
+  <h1 id="msg"></h1>
+
+  <script>
+      let h1 = document.getElementById("msg");
+
+      // 서버에서 사용자 이름을 불러옴
+      let username = "iljun";
+      h1.textContent = `안녕하세요, ${username}님`;
+
+  </script>
+
+</body>
+</html>

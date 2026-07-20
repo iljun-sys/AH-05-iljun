@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  
+  <!-- input event -->
+
+  <input type="text" id="name-input" placeholder="이름을 입력하세요">
+  <button>제출</button>
+
+
+  <script>
+    const input = document.querySelector("#name-input")
+    const button = document.querySelector("button")
+
+    function submitName() {
+      if (input.value === "") {
+        alert("이름을 입력하세요.")
+        return
+      }
+
+      const p = document.createElement("p");
+
+      const welcomeText = `환영합니다. ${input.value}님`;
+
+      p.textContent = welcomeText;  
+      document.body.appendChild(p);
+    }
+
+    button.addEventListener("click", submitName);
+
+
+  </script>
+
+
+</body>
+</html>

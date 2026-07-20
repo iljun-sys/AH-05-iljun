@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>To-Do (문법 학습용)</title>
+  <style>
+    body {
+      font-family: -apple-system, "Segoe UI", sans-serif;
+      max-width: 480px;
+      margin: 40px auto;
+      padding: 0 20px;
+      color: #222;
+    }
+    h1 { font-size: 1.4rem; }
+    .input-row { display: flex; gap: 8px; margin-bottom: 16px; }
+    input { flex: 1; padding: 8px; border: 1px solid #ccc; border-radius: 6px; }
+    button { padding: 8px 14px; border: none; border-radius: 6px; background: #4f46e5; color: white; cursor: pointer; }
+    ul { list-style: none; padding: 0; }
+    li {
+      display: flex; align-items: center; gap: 8px;
+      padding: 10px; border-bottom: 1px solid #eee;
+    }
+    /* 완료된 항목 스타일 (JS가 done 클래스를 토글함) */
+    li.done span { text-decoration: line-through; color: #aaa; }
+    li button { background: #ef4444; margin-left: auto; }
+    .status { margin-top: 12px; font-size: 0.9rem; color: #666; }
+  </style>
+</head>
+<body>
+  <h1>오늘 할 일</h1>
+
+  <div class="input-row">
+    <input id="todo-input" type="text" placeholder="할 일을 입력하세요" />
+    <button id="add-btn">추가</button>
+  </div>
+
+  <ul id="todo-list"></ul>
+
+  <p class="status" id="status"></p>
+
+  <script>
+    // =========================================================
+    //  [2. 변수와 값]
+    //  const = 안 바뀌는 값 (요소 참조는 안 바뀌니 const)
+    //  let   = 바뀌는 값 (todos 배열 내용은 계속 변함 → let)
+    // =========================================================
+    const input = document.querySelector("#todo-input");   // [7. DOM] 요소 선택
+    const addBtn = document.querySelector("#add-btn");
+    const list = document.querySelector("#todo-list");
+    const status = document.querySelector("#status");
+
+    // 할 일들을 담는 배열. 각 항목은 객체(object)다.  [6. 객체와 배열]
+    let todos = [];   // 예: [{ id: 1, text: "공부", done: false }, ...]
+
+    // =========================================================
+    //  [5. 함수]  화살표 함수로 정의
+    //  할 일 하나를 추가하는 함수
+    // =========================================================
+    const addTodo = (text) => {
+      // [4. 제어 흐름 - truthy/falsy]
+      // trim()으로 공백 제거 후, 빈 문자열이면 falsy → 함수 종료
+      if (!text.trim()) return;   // 아무것도 안 쓰고 추가 누르면 무시
+
+      // 새 할 일 객체 생성  [6. 객체]
+      const newTodo = {
+        id: Date.now(),   // 현재 시각(밀리초)을 고유 id로 사용
+        text: text,
+        done: false,
+      };
+
+      // [6. 배열 - 스프레드]  기존 배열을 펼치고 새 항목을 더한 새 배열
+      todos = [...todos, newTodo];
+
+      render();   // 화면 다시 그리기
+    };
+
+    // =========================================================
+    //  완료 상태를 뒤집는 함수  [5. 함수] + [6. 배열 map]
+    // =========================================================
+    const toggleTodo = (id) => {
+      // map: 각 항목을 돌면서, id가 일치하는 것만 done을 반대로
+      todos = todos.map((todo) => {
+        // [3. 연산자 - 삼항, ===]
+        return todo.id === id
+          ? { ...todo, done: !todo.done }   // 일치하면 done 뒤집기 (!는 NOT)
+          : todo;                           // 아니면 그대로
+      });
+      render();
+    };
+
+    // =========================================================
+    //  삭제 함수  [6. 배열 filter]
+    // =========================================================
+    const deleteTodo = (id) => {
+      // filter: id가 다른 것만 남긴다 = 해당 id는 제거됨
+      todos = todos.filter((todo) => todo.id !== id);
+      render();
+    };
+
+    // =========================================================
+    //  화면을 그리는 함수 (가장 중요) [7. DOM 조작 종합]
+    // =========================================================
+    const render = () => {
+      list.textContent = "";   // 먼저 목록 비우기
+
+      // [4. 반복문 - for...of]  배열을 돌면서 li를 만든다
+      for (const todo of todos) {
+        const li = document.createElement("li");   // [7. 요소 생성]
+
+        // [4. 조건문]  완료 상태면 done 클래스 추가
+        if (todo.done) {
+          li.classList.add("done");
+        }
+
+        // 체크박스
+        const checkbox = document.createElement("input");
+        checkbox.type = "checkbox";
+        checkbox.checked = todo.done;
+        // [8. 이벤트]  체크하면 toggle 실행
+        checkbox.addEventListener("change", () => toggleTodo(todo.id));
+
+        // 할 일 텍스트
+        const span = document.createElement("span");
+        span.textContent = todo.text;
+
+        // 삭제 버튼
+        const delBtn = document.createElement("button");
+        delBtn.textContent = "삭제";
+        delBtn.addEventListener("click", () => deleteTodo(todo.id));
+
+        // li 안에 3개를 넣고, li를 목록에 추가  [7. appendChild]
+        li.appendChild(checkbox);
+        li.appendChild(span);
+        li.appendChild(delBtn);
+        list.appendChild(li);
+      }
+
+      // 상태 문구 갱신  [6. filter + length] + [3. 연산자]
+      const doneCount = todos.filter((t) => t.done).length;
+      const total = todos.length;
+      // [4. truthy/falsy 응용]  할 일이 없으면 다른 문구
+      status.textContent = total
+        ? `전체 ${total}개 중 ${doneCount}개 완료`
+        : "할 일이 없습니다 🎉";
+    };
+
+    // =========================================================
+    //  [8. 이벤트]  버튼 클릭 & 엔터로 추가
+    // =========================================================
+    addBtn.addEventListener("click", () => {
+      addTodo(input.value);   // [8. event 없이 input.value 직접 사용]
+      input.value = "";       // 입력창 비우기
+    });
+
+    input.addEventListener("keydown", (event) => {
+      // [8. 이벤트 객체]  엔터 키(Enter)를 눌렀을 때만
+      if (event.key === "Enter") {
+        addTodo(input.value);
+        input.value = "";
+      }
+    });
+
+    // =========================================================
+    //  [9. 비동기]  1초 뒤 예시 할 일을 자동으로 넣어보기
+    //  (실제 앱에선 이 자리에서 fetch로 서버 데이터를 불러온다)
+    // =========================================================
+    setTimeout(() => {
+      addTodo("JavaScript 문법 복습하기");
+      addTodo("To-Do 코드 읽어보기");
+    }, 1000);
+
+    render();   // 처음 한 번 그리기 (빈 목록)
+  </script>
+</body>
+</html>
